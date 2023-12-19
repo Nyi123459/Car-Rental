@@ -1,0 +1,91 @@
+<%- include('./includes/head.ejs') %>
+
+</head>
+
+<body>
+   <%- include('./includes/navigation.ejs') %>
+
+  <section>
+    <div class="form-container">
+      <form action="/signup" method="POST">
+      <div class="row form-group mb-4">
+      <div class="col">
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        class="form-control"
+        name="firstName"
+        id="firstName"
+        value=""
+        placeholder="First Name"
+        required />
+      </div>
+
+       <div class="col">
+      <label for="lastName">Last Name</label>
+      <input
+        type="text"
+        class="form-control"
+        name="lastName"
+        id="lastName"
+        value=""
+        placeholder="Last Name"
+        required />
+        </div>
+        </div>
+
+        <div class="row form-group mb-4">
+        <div class="col">
+        <label for="tel">Telephone</label>
+        <input
+        type="tel"
+        class="form-control"
+        name="tel"
+        id="tel"
+        value=""
+        placeholder="Telephone"
+        required />
+        </div>
+
+        <div class="col">
+        <label for="email">Email</label>
+        <input
+        type="email"
+        class="form-control"
+        name="email"
+        id="email"
+        value=""
+        placeholder="Email"
+        required />
+        </div>
+        </div>
+
+      <div class="col">
+        <label for="email">Password</label>
+        <input
+        type="password"
+        class="form-control"
+        name="password"
+        id="password"
+        value=""
+        placeholder="Password"
+        required />
+        </div>
+      </div>
+
+        <div class="form-group mb-4">
+        <label for="details">Details</label>
+        <textarea
+      class="form-control"
+      name="details"
+      id="details"
+      cols="30"
+      rows="12"
+      placeholder="Customer Details"></textarea>
+        </div>
+        <button class="btn" type="submit">Register</button>
+      </form>
+    </div>
+  </section>
+
+<%- include('./includes/end.ejs') %>

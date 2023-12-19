@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <header
+        class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="/admin"
+          >Admin</a
+        >
+
+        <button
+          class="navbar-toggler position-absolute d-md-none collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#sidebarMenu"
+          aria-controls="sidebarMenu"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <form
+          class="nav col-12 col-md-auto flex-fill mb-2 justify-content-center mb-md-0"
+          role="search"
+          method="POST"
+          action="/admin/searchVehicle">
+          <input
+            type="search"
+            name="searchTerm"
+            class="form-control form-control-dark w-100 rounded-0 border-0"
+            placeholder="Search..."
+            aria-label="Search" />
+        </form>
+      </header>
+
+      <div class="row">
+        <%- include('../partials/sidebar.ejs') %>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+        <div
+          class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2"><%= vehicle.category %> - <%= vehicle.title %></h1>
+          <div class="btn-toolbar mb-2 mb-md 0">
+            <div class="btn-group me-2">
+              <button type="button" class="btn btn-sm btn-outline-secondary">
+                Share
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">
+                Export
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col py-3">
+          <div class="row">
+            <div class="col">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="/admin">Dashboard</a>
+                  </li>
+                  <li class="breadcrumb-item active"><%= vehicle.type %></li>
+                </ol>
+              </nav>
+            </div>
+            <div class="col text-end fw-lighter">
+              <b
+                >Last Updated <%= new Date(vehicle.updatedAt).toUTCString() %>
+              </b>
+              <b>UserId:</b> <%= vehicle._id %>
+            </div>
+          </div>
+        </div>
+
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col" style="max-width: 140px">
+                <b>Category:</b>
+              </div>
+              <div class="col"><%= vehicle.category %></div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col" style="max-width: 140px">
+                <b>Type:</b>
+              </div>
+              <div class="col"><%= vehicle.type %></div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col" style="max-width: 140px">
+                <b>Title:</b>
+              </div>
+              <div class="col"><%= vehicle.title %></div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col" style="max-width: 140px">
+                <b>Transmission:</b>
+              </div>
+              <div class="col"><%= vehicle.transmission %></div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col" style="max-width: 140px">
+                <b>Passengers:</b>
+              </div>
+              <div class="col"><%= vehicle.passengers %></div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col" style="max-width: 140px">
+                <b>Luggage:</b>
+              </div>
+              <div class="col"><%= vehicle.luggage %></div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col" style="max-width: 140px">
+                <b>Image:</b>
+              </div>
+              <div class="col"><%= vehicle.imageUrl %></div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="row-12">
+              <div class="col-30" style="max-width: 140px">
+                <b>About:</b>
+              </div>
+              <div class="col-30" ><%= vehicle.about %></div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col" style="max-width: 140px">
+                <b>Date Created:</b>
+              </div>
+              <div class="col"><%= vehicle.createdAt %></div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col" style="max-width: 140px">
+                <b>Date Modified:</b>
+              </div>
+              <div class="col"><%= vehicle.updatedAt %></div>
+            </div>
+          </li>
+        </ul>
+        
+        <%- include('../layouts/lower.ejs') %>
+      </div>
+    </div>
+  </body>
+</html>

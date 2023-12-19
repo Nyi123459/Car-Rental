@@ -1,0 +1,41 @@
+
+   <%- include('./includes/head.ejs') %>
+</head>
+<body>
+    <%- include('./includes/navigation.ejs') %>
+    <!-- services-->
+    <section class="services" id="services">
+        <div class="heading">
+            <span>Best services</span>
+            <h1>Explore Out Top Deals <br> from Top Rated Dealers</h1>
+        </div>  
+        <div class="services-container">
+            <div class="">
+                <div class="box-img">
+                    <img src="/<%= vehicle.imageUrl %>" alt="<%= vehicle.title %>">
+                </div>
+                <p>2023</p>
+                <h3>2017 Honda Civic</h3>
+                <h2>$60765 | $400 <span>/month</span></h2>
+            </div>
+             <div class="booking-container">
+            <form>
+                <h1>Start A Reservation</h1>
+                <div class="input-box">
+                    <span>Location</span>
+                    <input type="search" name="" id="" placeholder="search Places">
+                </div>
+                <div class="input-box">
+                    <span>Pick-Up Date</span>
+                    <input type="date" name="" id="">
+                </div>
+                <div class="input-box">
+                    <span>Return Date</span>
+                    <input type="date" name="" id="">
+                </div>
+                <input type="submit" name="" id="" class="btn">
+            </form>
+        </div>
+        </div>
+    </section>
+ <%- include('./includes/end.ejs') %>

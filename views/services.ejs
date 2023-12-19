@@ -1,0 +1,89 @@
+
+<%- include('./includes/head.ejs') %>
+</head>
+<body>
+  <%- include('./includes/navigation.ejs') %>
+  <main>
+
+     <% if (vehicles.length > 0) { %>
+    <ul>
+      <% vehicles.forEach(vehicles => { %>
+        <nav class="vehicle-grid">
+                <li class="vehicle-tile"/>
+    <a href="/vehicles" class="vehicle-tile__wrap" aria-label="<%= vehicles.type %>">
+        <picture class="vehicle-tile__image">
+            
+                <source srcset="/<%= vehicles.imageUrl %>" media="(min-width: 57em)"/>
+            
+                <source srcset="/<%= vehicles.imageUrl %>" media="(min-width: 40.0625em) and (max-width: 56.9375em)"/>
+            
+            <img class="content" srcset="/<%= vehicles.imageUrl %>" alt=" "/>
+        </picture>
+        <div class="vehicle-tile__stretch-wrap">
+            <div class="vehicle-tile__content-wrap">
+                <h3 class="vehicle-tile__title"><%= vehicles.type %></h3>
+                <p class="vehicle-tile__desc"><%= vehicles.title %></p>
+                
+    <div class="vehicle-tile__attributes">
+        
+            <p class="vehicle-tile__attributes-transmission"><%= vehicles.transmission %></p>
+        
+        <p class="vehicle-tile__attributes-space">
+            <span class="icon--cardetails-passengers"><span class="icon__text">Number of People </span><%= vehicles.passengers %></span>
+            <span class="icon--cardetails-luggage-small"><span class="icon__text">Small quantity </span><%= vehicles.luggage %></span>
+        </p>
+    </div>
+
+            </div>
+            <span class="vehicle-tile__fake-btn btn-link link--caret"><%= vehicles.about %></span>
+        </div>
+    </a>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p>No products available.</p>
+  <% } %>
+
+     <% if (vehicles.length > 0) { %>
+          <nav aria-label="Dashboard Pagination">
+            <ul class="pagination justify-content-center mt-5">
+              <% if (current == 1) { %>
+              <li class="page-item disabled">
+                <a href="/vehicles" class="page-link">First</a>
+              </li>
+              <% } else { %>
+              <li class="page-item">
+                <a href="/vehicles/?page=1" class="page-link">First</a>
+              </li>
+              <% } %> <% var i = (Number(current) > 5 ? Number(current) - 4 : 1)
+              %> <% if(i !== 1) { %>
+              <li class="page-item disabled">
+                <a href="/vehicles" class="page-link">...</a>
+              </li>
+              <% } %> <% for(; i <= (Number(current) + 4) && i <= pages; i++ ) {
+              %> <% if (i == current) { %>
+              <li class="page-item disabled">
+                <a href="/vehicles" class="page-link"><%= i %></a>
+              </li>
+              <% } else { %>
+              <li class="page-item">
+                <a href="/vehicles/?page=<%= i %>" class="page-link"><%= i %></a>
+              </li>
+              <% } %> <% if (i == Number(current) + 4 && i < pages) { %>
+              <li class="page-item disabled">
+                <a href="/vehicles" class="page-link">...</a>
+              </li>
+              <% } %> <% } %> <% if (current == pages) { %>
+              <li class="page-item disabled">
+                <a href="/vehicles" class="page-link">Last</a>
+              </li>
+              <% } else { %>
+              <li class="page-item">
+                <a href="/vehicles/?page=<%= pages %>" class="page-link">Last</a>
+              </li>
+              <% } %>
+            </ul>
+          </nav>
+          <% } %>
+
+<%- include('./includes/end.ejs') %>

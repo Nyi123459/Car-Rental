@@ -1,0 +1,56 @@
+<%- include('./includes/head.ejs') %>
+</head>
+<body>
+    <%- include('./includes/navigation.ejs') %>
+    <section class="services" id="services">
+        <div class="heading">
+            <span>Best services</span>
+            <h1>Explore Out Top Deals <br> from Top Rated Dealers</h1>
+        </div>
+        <div class="">
+            <nav class="sidebar-nav" data-national-ui="tabNavigation">
+            <ul>
+              <li class="sidebar-nav__link-list-item sidebar-nav__link--highlight">
+                  
+                <a href="#category100" data-scroll-id="category100" class="sidebar-nav__link link--caret">Cars</a>
+              </li>
+            
+              <li class="sidebar-nav__link-list-item false">
+                  
+                <a href="#category200" data-scroll-id="category200" class="sidebar-nav__link link--caret">Trucks</a>
+              </li>
+            
+              <li class="sidebar-nav__link-list-item false">
+                  
+                <a href="#category300" data-scroll-id="category300" class="sidebar-nav__link link--caret">SUVs</a>
+              </li>
+            
+              <li class="sidebar-nav__link-list-item false">
+                  
+                <a href="#category500" data-scroll-id="category500" class="sidebar-nav__link link--caret">Vans</a>
+              </li>
+            </ul>
+          </nav>
+        </div>  
+        <% if (vehicles.length > 0) { %>
+            <% vehicles.forEach(vehicles => { %>
+        <div class="services-container">
+            <div class="box">
+                <div class="box-img">
+                    <img src="/<%= vehicles.imageUrl %>" alt="<%= vehicles.title %>">
+                </div>
+                <p><%= vehicles.type %></p>
+                <h3><%= vehicles.title %></h3>
+                <h2>$60765 | $400 <span>/month</span></h2>
+                <a href="/viewDetails/<%= vehicles._id %>" class="btn"> View Details 
+                </a>
+                </div>
+        </div>
+          <% }); %>
+    </section>
+    <% } else { %>
+        <p>No products available.</p>
+        <% } %>
+   <%- include('./includes/end.ejs') %>
+    
+  

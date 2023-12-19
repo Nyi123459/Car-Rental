@@ -1,0 +1,75 @@
+<%- include('./includes/head.ejs') %>
+</head>
+<body>
+  <main>
+    <%- include('./includes/navigation.ejs') %>
+    <form action="/reviews" method="GET"></form>
+    <section class="reviews" id="reviews">
+      <div class="heading">
+        <span>Reviews</span>
+        <h1>Whats Our Customer Say</h1>
+      </div>
+      <div class="reviews-container">
+        <div class="box">
+          <div class="rev-img">
+            <img src="/images/rev1.jpg" alt="" />
+          </div>
+          <h2>Someone Name</h2>
+          <div class="starts">
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star-half"></i>
+          </div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+          </p>
+        </div>
+
+        <div class="box">
+          <div class="rev-img">
+            <img src="/images/rev2.jpg" alt="" />
+          </div>
+          <h2>Someone Name</h2>
+          <div class="starts">
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star-half"></i>
+          </div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+          </p>
+        </div>
+
+        <div class="box">
+          <div class="rev-img">
+            <img src="/images/rev3.jpg" alt="" />
+          </div>
+          <h2>Someone Name</h2>
+          <div class="starts">
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star-half"></i>
+          </div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <%- include('./includes/end.ejs') %>

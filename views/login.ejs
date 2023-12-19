@@ -1,0 +1,23 @@
+<%- include('./includes/head.ejs') %>
+</head>
+
+<body>
+
+  <%- include('./includes/navigation.ejs') %>
+    <section>
+  <div class="form-container">
+    <form action="/login" method="POST">
+      <div class="input-box">
+        <span>Email</span>
+        <input type="email" name="email" required>
+      </div>
+      <div class="input-box">
+        <span>Password</span>
+        <input type="password" name="password" required>
+      </div>
+      <button class="btn" type="submit">Login</button>
+    </form>
+  </div>
+</section>
+
+ <%- include('./includes/end.ejs') %>

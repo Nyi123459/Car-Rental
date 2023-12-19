@@ -1,0 +1,26 @@
+<header>
+  <form action="/" method="get"></form>
+  <a href="/" class="logo"><img src="/images/jeep.png" alt="" /></a>
+  <div class="bx bx-menu" id="menu-icon"></div>
+  <ul class="navbar">
+    <li><a href="/">Home</a></li>
+    <li><a href="/ride">Ride</a></li>
+    <li><a href="/vehicles">services</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/reviews">Reviews</a></li>
+    <li><a href="/admin">Dashboard</a></li>
+  </ul>
+  <% if(!isAuthenticated) { %>
+  <div class="header-btn">
+    <a href="/signup">Sign Up</a>
+    <a href="/login">Log In</a>
+  </div>
+  <% } else { %>
+  <div class="dropdown-content">
+    <a href="#">Profile</a>
+    <form action="/logout" method="POST">
+      <button class="btn" type="submit">Logout</button>
+    </form>
+  </div>
+  <% } %>
+</header>

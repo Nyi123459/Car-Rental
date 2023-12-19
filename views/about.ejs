@@ -1,0 +1,36 @@
+<%- include('./includes/head.ejs') %>
+</head>
+<body>
+  <%- include('./includes/navigation.ejs') %>
+  <main>
+    <form action="/about" method="GET"></form>
+    <!--About-->
+    <section class="about" id="about">
+      <div class="heading">
+        <span>About Us</span>
+        <h1>Best Customer Experience</h1>
+      </div>
+      <div class="about-container">
+        <div class="about-img">
+          <img src="/images/about.png" alt="" />
+        </div>
+        <div class="about-text">
+          <span>About Us</span>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat..
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+          </p>
+          <a href="#" class="btn">Learn More</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <%- include('./includes/end.ejs') %>
