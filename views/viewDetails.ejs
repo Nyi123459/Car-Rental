@@ -1,41 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Car Rental</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
 
-   <%- include('./includes/head.ejs') %>
-</head>
+
 <body>
-    <%- include('./includes/navigation.ejs') %>
-    <!-- services-->
-    <section class="services" id="services">
-        <div class="heading">
-            <span>Best services</span>
-            <h1>Explore Out Top Deals <br> from Top Rated Dealers</h1>
-        </div>  
-        <div class="services-container">
-            <div class="">
-                <div class="box-img">
-                    <img src="/<%= vehicle.imageUrl %>" alt="<%= vehicle.title %>">
-                </div>
-                <p>2023</p>
-                <h3>2017 Honda Civic</h3>
-                <h2>$60765 | $400 <span>/month</span></h2>
-            </div>
-             <div class="booking-container">
-            <form>
-                <h1>Start A Reservation</h1>
-                <div class="input-box">
-                    <span>Location</span>
-                    <input type="search" name="" id="" placeholder="search Places">
-                </div>
-                <div class="input-box">
-                    <span>Pick-Up Date</span>
-                    <input type="date" name="" id="">
-                </div>
-                <div class="input-box">
-                    <span>Return Date</span>
-                    <input type="date" name="" id="">
-                </div>
-                <input type="submit" name="" id="" class="btn">
-            </form>
+  <%- include('./includes/navigation.ejs') %>
+
+  <section class="details" id="services">
+    <span class="details-heading">Best services</span>
+    <div class="details-container">
+        <div class="box-img">
+          <img src="/<%= vehicle.imageUrl %>" alt="<%= vehicle.title %>" />
         </div>
+        <h2><%= vehicle.title %></h2>
+        <h3>Type : <%= vehicle.type %></h3>
+        <h3>Price : <%= vehicle.price %> <span>/hour</span></h3>
+        <p><strong><%= vehicle.transmission %></strong></p>
+        <p class="passenger"><i class="fa-solid fa-person icon"></i> <%= vehicle.passengers %></p>
+        <p class="luggage"><i class="fa-solid fa-suitcase-rolling icons"></i> <%= vehicle.luggage %></p>
+        <div>
+          <p><strong>Vehicle Features </strong><br><%= vehicle.about %></p>
         </div>
-    </section>
- <%- include('./includes/end.ejs') %>
+    </div>
+
+      <div class="booking-container">
+        <form action="/booking" method="POST">
+          <h1>Start A Reservation</h1>
+     
+          <div class="input-box">
+              <span>Location</span>
+              <input
+                  type="search"
+                  name="location"
+                  id="location"
+                  placeholder="Search Places" 
+                  value="<%= queryParams.location %>"
+              />
+              <select name="return-option" id="return-option" onchange="toggleReturnLocation()">
+                  <option value="same">Same return</option>
+                  <option value="different">Different return</option>
+              </select>
+              <div id="different-return-location" style="display: none;">
+                  <span>Different Return Location</span>
+                  <input
+                      type="search"
+                      name="differentLocation"
+                      id="differentLocation"
+                      placeholder="Search Different Places" 
+                      value=""
+                  />
+              </div>
+          </div>
+          
+          <div class="input-box">
+            <span>Pick-Up*</span>
+            <input type="date" name="startDate" id="startDate" value="<%= queryParams.startDate %>" />
+            <label for="startHourlyTime">Select Time:</label>
+            <select id="startHourlyTime" name="startHourlyTime">
+              <% for (let i = 0; i < 24; i++) { %>
+                <% const formattedTime = i.toString().padStart(2, '0') + ':00'; %>
+                <option value="<%= formattedTime %>" <%= queryParams.startHourlyTime === formattedTime ? 'selected' : '' %>>
+                  <%= formattedTime %>
+                </option>
+              <% } %>
+            </select>
+          </div>
+
+          <div class="input-box">
+            <span>Return*</span>
+            <input type="date" name="endDate" id="endDate" value="<%= queryParams.endDate %>" />
+            <label for="endHourlyTime">Select Time:</label>
+            <select id="endHourlyTime" name="endHourlyTime">
+              <% for (let i = 0; i < 24; i++) { %>
+                <% const formattedTime = i.toString().padStart(2, '0') + ':00'; %>
+                <option value="<%= formattedTime %>" <%= queryParams.endHourlyTime === formattedTime ? 'selected' : '' %>>
+                  <%= formattedTime %>
+                </option>
+              <% } %>
+            </select>
+          </div>
+
+          <input type="hidden" name="vehicleId" value="<%= vehicle._id %>" />
+          
+
+          <button type="submit" class="btn">Continue</button>
+        </form>
+      </div>
+  </section>  
+  <!-- Add this code within the <section> tag, before the closing </section> tag -->
+
+  <!-- Review Section -->
+  <section class="review" id="review">
+    <div class="review-container">
+      <h2>Rate This Vehicle</h2>
+
+      <!-- Add a new review form -->
+      <form action="/vehicles/<%= vehicle._id %>/reviews" method="POST">
+        <div class="input-box">
+          <label for="rating">Rating:</label>
+          <!-- Use a set of radio buttons for star ratings -->
+          <div class="star-rating">
+            <input type="radio" id="star5" name="rating" value="5" />
+            <label for="star5" title="5 stars"></label>
+            <input type="radio" id="star4" name="rating" value="4" />
+            <label for="star4" title="4 stars"></label>
+            <input type="radio" id="star3" name="rating" value="3" />
+            <label for="star3" title="3 stars"></label>
+            <input type="radio" id="star2" name="rating" value="2" />
+            <label for="star2" title="2 stars"></label>
+            <input type="radio" id="star1" name="rating" value="1" />
+            <label for="star1" title="1 star"></label>
+          </div>
+        </div>
+        <div class="input-box">
+          <label for="comment">Comment:</label>
+          <textarea id="comment" name="comment" rows="4" placeholder="Write your comment here"></textarea>
+        </div>
+        <button type="submit" class="btn">Submit Review</button>
+      </form>
+    </div>
+  </section>
+
+  
+ <div class="copyright">
+        <p>&#169; Mr.Wang All Right Reserved</p>
+        <div class="social">
+            <a href="#"><i class='bx bxl-facebook'></i></a>
+            <a href="#"><i class='bx bxl-twitter'></i></a>
+            <a href="#"><i class='bx bxl-instagram'></i></a>
+            <a href="#"><i class='bx bxl-whatsapp'></i>
+            <a href="#"><i class='bx bxl-tiktok'></i></a>
+        </div>
+    </div>
+    <script>
+    function toggleReturnLocation() {
+        var returnOption = document.getElementById("return-option");
+        var differentReturnLocation = document.getElementById("different-return-location");
+
+        if (returnOption.value === "different") {
+            differentReturnLocation.style.display = "block";
+        } else {
+            differentReturnLocation.style.display = "none";
+        }
+    }
+</script>
+
+    <script>
+  function getMinDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  function updateEndDateMin() {
+    const startDateValue = document.getElementById('startDate').value;
+    document.getElementById('endDate').min = startDateValue;
+  }
+
+  // Set the min attribute for date inputs to disable past dates
+  document.getElementById('startDate').min = getMinDate();
+  document.getElementById('endDate').min = getMinDate();
+
+  // Add the onchange event listener after the page is loaded
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('startDate').addEventListener('change', updateEndDateMin);
+  });
+</script>
+<script src="https://unpkg.com/scrollreveal"></script>
+</body>
+</html>

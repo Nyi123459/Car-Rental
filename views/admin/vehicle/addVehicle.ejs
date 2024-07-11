@@ -19,9 +19,6 @@
         </ol>
       </nav>
     </div>
-    <div class="col text-end fw-lighter">
-      <b>UserId</b>
-    </div>
   </div>
 </div>
 
@@ -79,6 +76,18 @@
 
   <div class="row form-group mb-4">
     <div class="col">
+      <label for="price">Price(mmk/hour):</label>
+      <input
+        type="number"
+        class="form-control"
+        name="price"
+        id="price"
+        value=""
+        placeholder="Price"
+        required />
+    </div>
+
+    <div class="col">
       <label for="passengers">Passengers</label>
       <input
         type="number"
@@ -89,7 +98,9 @@
         placeholder="Passengers"
         required />
     </div>
+  </div>
 
+  <div class="form-group mb-4">
     <div class="col">
       <label for="luggage">Luggage</label>
       <input
@@ -101,9 +112,7 @@
         placeholder="Luggage"
         required />
     </div>
-  </div>
 
-  <div class="form-group mb-4">
     <div class="col">
       <label for="image">Image</label>
       <input
@@ -113,17 +122,17 @@
         id="image"
         required />
     </div>
+  </div>
 
-    <div class="col">
-      <label for="about">Vehicle Features</label>
-      <textarea
-        class="form-control"
-        name="about"
-        id="about"
-        cols="20"
-        rows="8"
-        placeholder="Vehicle Features"></textarea>
-    </div>
+  <div class="col">
+    <label for="about">Vehicle Features</label>
+    <textarea
+      class="form-control"
+      name="about"
+      id="about"
+      cols="20"
+      rows="8"
+      placeholder="Vehicle Features"></textarea>
   </div>
 
   <div class="form-group mb-4">

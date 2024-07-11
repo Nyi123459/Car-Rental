@@ -26,3 +26,4 @@ sr.reveal(".services-container .box", { delay: 600, origin: "top" });
 sr.reveal(".about-container .box", { delay: 600, origin: "top" });
 sr.reveal(".reviews-container .box", { delay: 600, origin: "top" });
 sr.reveal(".newsletter .box", { delay: 400, origin: "top" });
+

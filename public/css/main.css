@@ -1,16 +1,17 @@
 /* Google fonts*/
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500;600;700&display=swap");
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  scroll-padding-top: 2em;
-  scroll-behavior: smooth;
-  list-style: none;
-  text-decoration: none;
-  font-family: "Poppins", sans-serif;
-}
+
 :root {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-padding-top: 2em;
+    scroll-behavior: smooth;
+    list-style: none;
+    text-decoration: none;
+    font-family: "Poppins", sans-serif;
+  }
   --main-color: #fe5b3d;
   --second-color: #ffac38;
   --text-color: #444;
@@ -41,7 +42,6 @@ header {
   align-items: center;
   justify-content: space-between;
   background: #eeeff1;
-  padding: 15px 100px;
 }
 
 .logo img {
@@ -99,9 +99,15 @@ header {
   background: var(--main-color);
 }
 
+.dropdown-content .btn {
+  margin-right: 25px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
 .home {
   width: 100%;
-  min-height: 100vh;
+  min-height: 89vh;
   position: relative;
   background: url(/images/Car\ Website\ –\ 1@2x.png);
   background-repeat: no-repeat;
@@ -115,9 +121,13 @@ header {
 .text h1 {
   font-size: 3.5rem;
   letter-spacing: 2px;
+
+  padding: 10px;
+  margin-left: 20px;
 }
 
 .text span {
+  margin-left: 20px;
   color: var(--main-color);
 }
 .text p {
@@ -134,6 +144,16 @@ header {
   cursor: pointer;
 }
 
+.login-form {
+  height: 90vh;
+}
+
+.login-form-container {
+  margin: 20px;
+  display: grid;
+  padding: 30px;
+}
+
 .form-container form {
   display: flex;
   flex-wrap: wrap;
@@ -147,8 +167,18 @@ header {
   border-radius: 0.5rem;
 }
 
-.booking-container form {
+.form-container form h1 {
+  margin: auto;
+}
+
+.booking-container {
   display: flex;
+  margin-top: 80px;
+  margin-left: 100px;
+}
+
+.booking-container form {
+  width: 400px;
   flex-wrap: wrap;
 }
 
@@ -169,6 +199,19 @@ header {
   background: #eeeff1;
   border-radius: 0.5rem;
   font-size: 1rem;
+}
+
+.booking-container .btn {
+  padding: 5px;
+}
+
+.booking-container .btn:hover {
+  background-color: var(--main-color);
+}
+
+.booking-container .btn :active {
+  opacity: 0.8;
+  transition: 1;
 }
 
 .form-container form .btn {
@@ -233,22 +276,39 @@ header {
   color: #fff;
 }
 
-.services-container {
-  display: flex;
+.services {
+  display: block;
   justify-content: space-between;
-  /* grid-template-columns: repeat(auto-fit, minmax(300px, auto)); */
+  background-color: #587a7a;
+}
+
+.services-container {
+  display: inline-flex;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(300px, auto));
   gap: 1rem;
   margin-top: 2rem;
 }
 
 .services-container .box {
+  margin-left: 100px;
+  margin-bottom: 3px;
   padding: 10px;
   border-radius: 1rem;
   box-shadow: 1px 4px 41px rgba(0, 0, 0, 0.1);
+  background-color: rgb(243, 228, 199);
+}
+
+.services-container .box:hover {
+  background-color: wheat;
+}
+
+.services-container .box:active {
+  opacity: 0.8;
 }
 
 .services-container .box .box-img {
-  width: 100%;
+  width: 300px;
   height: 200px;
 }
 
@@ -292,19 +352,23 @@ header {
   color: #fff;
   padding: 10px;
   border-radius: 0.5rem;
+  opacity: 0.8;
 }
 
 .services-container .box .btn:hover {
   background: var(--main-color);
 }
 
+.about h1 {
+  margin-top: 100px;
+}
+
 .about-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  margin-top: 2rem;
+  margin-top: 5rem;
   align-items: center;
   gap: 1rem;
-  margin-top: 1rem;
 }
 
 .about-img img {
@@ -337,6 +401,7 @@ header {
   grid-template-columns: repeat(auto-fit, minmax(250px, auto));
   gap: 1rem;
   margin-top: 2rem;
+  margin-bottom: 145px;
 }
 .rev-img {
   width: 70px;
@@ -490,10 +555,12 @@ header {
   .navbar a::after {
     display: none;
   }
+
   .heading span {
     font-size: 0.9rem;
     font-weight: 600;
   }
+
   .heading h1 {
     font-size: 1.3rem;
   }
@@ -540,4 +607,289 @@ header {
   .services-container {
     grid-template-columns: repeat(auto-fit, minmax(254px, auto));
   }
+}
+
+.details {
+  background-color: rgb(243, 228, 199);
+  display: flex;
+  margin: 0;
+  padding-bottom: 10px;
+}
+
+.details-heading {
+  margin-top: 60px;
+  position: absolute;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.details-container {
+  margin-top: 80px;
+  padding-left: 20px;
+}
+
+.details-container .box-img {
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+.passenger {
+  font-size: 20px;
+}
+
+.icon,
+.icons,
+.money-icon {
+  font-size: 25px;
+}
+
+.luggage {
+  font-size: 20px;
+}
+
+.booking-details {
+  align-items: center;
+}
+
+.booking-details h1 {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+.booking-details h2 {
+  padding-left: 30px;
+}
+
+.booking-details p {
+  padding-left: 30px;
+  margin-bottom: 20px;
+}
+
+.booking-details p.letter {
+  line-height: 25px;
+}
+
+.booking-date {
+  padding-left: 30px;
+}
+
+.dates {
+  font-weight: bold;
+}
+
+/* Add this code at the end of your main.css file */
+
+/* Review Section */
+.review {
+  display: grid;
+}
+.review-container {
+  padding: 20px;
+  background-color: #f3e4c7;
+  border-radius: 10px;
+}
+
+.review-container h2 {
+  margin-left: 170px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--main-color);
+  margin-bottom: 20px;
+}
+
+.review-container form {
+  display: flex;
+  flex-direction: column;
+  margin-left: 170px;
+  margin-right: 400px;
+}
+
+.input-box label {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+/* Review Section */
+.star-rating {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  cursor: pointer;
+  font-size: 24px;
+  color: #ccc;
+  order: -1; /* Change the order to 1 */
+}
+
+.star-rating label:before {
+  content: "\2605"; /* Unicode character for a solid star */
+}
+
+.star-rating input:checked ~ label {
+  color: var(--main-color);
+}
+
+.input-box textarea {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.review-container .btn {
+  margin-left: 550px;
+  padding: 10px 20px;
+  background: var(--main-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.review-container .btn:hover {
+  background: #ff6e40;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .review-container {
+    padding: 20px;
+  }
+
+  .star-rating label {
+    font-size: 20px;
+  }
+}
+
+.booking-details {
+  padding: 20px;
+  background-color: rgb(255, 244, 223);
+}
+
+.booking-details p {
+  letter-spacing: 1.3px;
+}
+
+.info p {
+  margin-left: 200px;
+  display: grid;
+  grid-template-columns: 1fr 750px;
+}
+
+.dates li {
+  margin-left: 200px;
+  display: grid;
+  grid-template-columns: 1fr 750px;
+}
+
+.booking-details li {
+  margin-left: 200px;
+  display: grid;
+  grid-template-columns: 1fr 750px;
+}
+
+.overlapped-bookings li {
+  margin-left: 200px;
+  display: grid;
+  grid-template-columns: 1fr 750px;
+}
+
+.button-container {
+  display: flex;
+}
+
+.submit-booking {
+  padding: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.submit-booking:hover {
+  background-color: var(--main-color);
+}
+
+.back-to-booking {
+  padding: 5px;
+  color: #444;
+}
+
+.back-to-booking:hover {
+  background-color: var(--main-color);
+}
+
+/* Reset some default styles */
+
+/* Apply some basic styling to the form container */
+.form-container-signup {
+  max-width: 600px;
+  margin-top: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: rgb(243, 157, 87);
+}
+
+/* Style form labels */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* Style form input fields */
+.form-control {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+/* Style the button */
+.btn {
+  margin-top: 30px;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Add hover effect to the button */
+.btn:hover {
+  background-color: #45a049;
+}
+
+/* Style invalid input fields */
+.invalid {
+  border: 1px solid #ff0000;
+}
+
+/* Add spacing between form groups */
+.row {
+  margin-bottom: 16px;
+}
+
+/* Additional styling for the container, adjust as needed */
+.container {
+  margin: 20px;
+}
+
+.services .heading h1 {
+  padding-top: 50px;
+}
+
+.reviews .heading h1 {
+  padding-top: 50px;
 }

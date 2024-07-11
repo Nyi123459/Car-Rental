@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Car Rental</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+      <style>
+        body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+}
+
+h1{
+margin-left: 600px;
+}
+.timer{
+margin-left: 640px;
+}
+
+h2 {
+  color: #333;
+}
+
+section {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 10px;
+}
+
+#card-element {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.card{
+  display: grid;
+}
+
+button {
+    margin-top: 15px;
+    margin-left: 200px;
+    margin-right: 200px;
+  padding: 10px 15px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+#timer {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.copyright {
+  margin-top: 220px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.social a {
+  color: #444;
+  padding: 10px;
+  font-size: 21px;
+}
+
+/* Add media queries for responsiveness if needed */
+@media (max-width: 768px) {
+  section {
+    max-width: 100%;
+  }
+}
+
+      </style>
+      <script src="https://js.stripe.com/v3/"></script>
+  </head>
+
+<body>
+  <h1>Payment</h1>
+  <div id="timer" class="timer"></div>
+  <section>
+    <h2>Payment Details</h2>
+    <p><strong>Total Amount: </strong><%= totalAmount %></p>
+    <form id="payment-form" action="/webhook/payment?paymentIntentId=<%= paymentIntentId %>" method="POST">
+      <!-- Add your other hidden input fields here -->
+      <input type="hidden" name="paymentIntentId" value="<%= paymentIntentId %>" />
+
+      <div id="card-element" class="card">
+        <!-- A Stripe Element will be inserted here. -->
+      </div>
+      <input type="hidden" name="totalAmount" value="<%= totalAmount %>" />
+      <button type="submit" id="checkout-button">Checkout</button>
+    </form>
+  </section>
+ <div class="copyright">
+        <p>&#169; Mr.Wang All Right Reserved</p>
+        <div class="social">
+            <a href="#"><i class='bx bxl-facebook'></i></a>
+            <a href="#"><i class='bx bxl-twitter'></i></a>
+            <a href="#"><i class='bx bxl-instagram'></i></a>
+            <a href="#"><i class='bx bxl-whatsapp'></i>
+            <a href="#"><i class='bx bxl-tiktok'></i></a>
+        </div>
+    </div>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const clientSecret = urlParams.get('clientSecret');
+    const key = urlParams.get('key');
+    const totalAmount = urlParams.get('totalAmount');
+    const paymentIntentId = urlParams.get('paymentIntentId')
+
+  </script>
+  <script>
+    var stripe = Stripe('<%= key %>');
+    var elements = stripe.elements();
+
+    var card = elements.create('card');
+
+
+    card.mount('#card-element');
+
+
+    card.addEventListener('change', function (event) {
+      var displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+
+    // Handle form submission.
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      stripe.confirmCardPayment('<%= clientSecret %>', {
+        payment_method: {
+          card: card,
+        },
+      }).then(function (result) {
+        if (result.error) {
+          // Show error to your customer.
+          var errorElement = document.getElementById('card-errors');
+          errorElement.textContent = result.error.message;
+        } else {
+          // The payment was processed successfully.
+          if (result.paymentIntent.status === 'succeeded') {
+            // Submit the form to confirm the booking.
+            window.location.href='/webhook/payment?paymentIntentId=' + result.paymentIntent.id;
+          }
+        }
+      });
+    });
+  </script>
+  <script>
+function deleteBookingOnTimeout(paymentIntentId) {
+  fetch(`/webhook/deleteBooking?paymentIntentId=${paymentIntentId}`, {
+    method: 'DELETE',
+  })
+    .then(response => response.json())
+    .then(data => {
+      // Handle the response from the server if needed
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error deleting booking:', error);
+    });
+}
+
+const timerElement = document.getElementById('timer');
+let timerSeconds = 60; // 1 hour in seconds
+
+function updateTimerDisplay() {
+  const minutes = Math.floor(timerSeconds / 60);
+  const seconds = timerSeconds % 60;
+  timerElement.innerHTML = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+}
+
+function startTimer(paymentIntentId) {
+  const timerInterval = setInterval(() => {
+    timerSeconds -= 1;
+    updateTimerDisplay();
+
+    if (timerSeconds <= 0) {
+      clearInterval(timerInterval);
+      deleteBookingOnTimeout(paymentIntentId);
+      alert('Booking timed out. Please try again.');
+      window.location.href = '/'; // Redirect to home page or another page
+    }
+  }, 1000);
+
+  updateTimerDisplay(); // Initial display
+}
+
+// Call startTimer when the page loads
+document.addEventListener('DOMContentLoaded', function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  const paymentIntentId = urlParams.get('paymentIntentId');
+  startTimer(paymentIntentId);
+});
+
+</script>
+<script src="https://unpkg.com/scrollreveal"></script>
+ <script src="/js/main.js"></script>
+</body>
+</html>

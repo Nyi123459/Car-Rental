@@ -1,0 +1,130 @@
+<%- include('./includes/head.ejs') %>
+
+<body>
+  <section class="booking-details">
+    <div>
+      <h1>Booking Confirmation</h1>
+      <p>Dear <%= firstName %>,</p>
+      <p class="letter">
+        I wanted to take a moment to express my sincere gratitude for choosing
+        ITVisionHub for your recent car rental. We appreciate your business and
+        trust in our services. We hope your experience was seamless, and the
+        vehicle met your expectations. Our team is dedicated to providing
+        top-notch service, and your satisfaction is our priority.
+      </p>
+      <p>Your booking details are as follows:</p>
+      <div class="info">
+        <p><strong>Booked By: </strong><%= firstName %> <%= lastName %></p>
+        <p><strong> Email: </strong><%= userEmail %></p>
+        <p><strong>Selected Car: </strong><%= vehicleData.category %></p>
+        <p><strong>Selected Car Title: </strong><%= vehicleData.title %></p>
+        <p><strong>Total Cost:</strong> $<%= cost %></p>
+
+        <% if (differentLocation) { %>
+        <p><strong>Pick up Location: </strong><%= location %></p>
+        <p><strong>Drop Off Location: </strong><%= differentLocation %></p>
+        <% } else{ %>
+        <p><strong>Location : </strong><%= location %></p>
+        <% } %>
+      </div>
+      <div class="booking-date">
+        <% if (validationError) { %>
+        <div class="validation-error">
+          <strong><p style="color: red"><%= validationError %></p></strong>
+        </div>
+        <ul>
+          <li>Pick Up Date: <%= startDate %> <%= startHourlyTime %><strong>(not available)</strong></li>
+          <li>Return Date: <%= endDate %> <%= endHourlyTime %><strong>(not available)</strong></li>
+        </ul>
+        <% if (overlappingBookings && overlappingBookings.length > 0) { %>
+        <div class="overlapped-bookings">
+          <h2>Overlapped Bookings:</h2>
+          <ul>
+            <% for (let i = 0; i < overlappingBookings.length; i++) { %>
+            <li><strong> Start Date:</strong> <%= overlappingBookings[i].startDate %></li>
+            <li><strong> End Date: </strong><%= overlappingBookings[i].endDate %></li>
+            <% } %>
+          </ul>
+        </div>
+        <% } %>
+        <h2>Upcoming Booked Dates:</h2>
+        <% for (let i = 0; i < upcomingBookings.length; i++) { %>
+        <p class="booked-dates">
+          <strong style="color: green"
+            >Start Date: <%= upcomingBookings[i].startDate %></strong
+          >
+        </p>
+        <p class="booked-dates">
+          <strong style="color: green"
+            >End Date: <%= upcomingBookings[i].endDate %></strong
+          >
+        </p>
+        <% } %>
+
+        <button type="button" disabled>Confirm Booking</button>
+        <% } else { %>
+
+        <ul class="dates">
+          <li><strong>Pick Up Date:</strong> <%= startDate %> <%= startHourlyTime %></li>
+          <li><strong>Return Date:</strong> <%= endDate %> <%= endHourlyTime %></li>
+        </ul>
+
+          <% if (upcomingBookings && upcomingBookings.length > 0) { %>
+          <div class="upcoming-bookings">
+            <h2>Upcoming Bookings for this Vehicle:</h2>
+            <ul>
+              <% for (let i = 0; i < upcomingBookings.length; i++) { %>
+              <li style="color: green">
+                Start Date: <%= upcomingBookings[i].startDate %>
+              </li>
+              <li style="color: green">
+                End Date: <%= upcomingBookings[i].endDate %>
+              </li>
+              <% } %>
+            </ul>
+          </div>
+          <% } %>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="button-container">
+    <form action="/confirmBooking" method="POST">
+      <% if (differentLocation) { %>
+      <input
+        type="hidden"
+        name="differentLocation"
+        value="<%= differentLocation %>" />
+      <% }%>
+      <input type="hidden" name="location" value="<%= location %>" />
+      <input type="hidden" name="startDate" value="<%= startDate %>" />
+      <input type="hidden" name="endDate" value="<%= endDate %>" />
+      <input
+        type="hidden"
+        name="startHourlyTime"
+        value="<%= startHourlyTime %>" />
+      <input type="hidden" name="endHourlyTime" value="<%= endHourlyTime %>" />
+      <input type="hidden" name="vehicleId" value="<%= vehicleData._id %>" />
+      <button type="submit" class="submit-booking">Confirm Booking</button>
+    </form>
+    <% } %>
+    <button class="back-to-booking">
+      <a href="/viewDetails/<%= vehicleData._id %>?location=<%= location %>&startDate=<%= startDate %>&startHourlyTime=<%= startHourlyTime %>&endDate=<%= endDate %>&endHourlyTime=<%= endHourlyTime %>">Go Back to Booking</a>
+    </button>
+ </div>
+ <div class="copyright" >
+        <p>&#169; Mr.Wang All Right Reserved</p>
+        <div class="social">
+            <a href="#"><i class='bx bxl-facebook'></i></a>
+            <a href="#"><i class='bx bxl-twitter'></i></a>
+            <a href="#"><i class='bx bxl-instagram'></i></a>
+            <a href="#"><i class='bx bxl-whatsapp'></i>
+            <a href="#"><i class='bx bxl-tiktok'></i></a>
+        </div>
+    </div>
+<script src="https://unpkg.com/scrollreveal"></script>
+ <script src="/js/main.js"></script>
+</body>
+</html>
+

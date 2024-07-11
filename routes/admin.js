@@ -25,4 +25,8 @@ router.put("/admin/editVehicle/:id", isAdmin, adminController.postEditVehicle);
 router.delete("/admin/editVehicle/:id", isAdmin, adminController.deleteVehicle);
 router.post("/admin/searchVehicle", isAdmin, adminController.searchVehicle);
 
+//Bookings//
+router.get("/admin/viewBookings", isAdmin, adminController.viewBookings);
+router.get("/admin/viewBooking/:id", isAdmin, adminController.viewBooking);
+router.delete("/admin/deleteBooking/:id", isAdmin, adminController.deleteBooking);
 module.exports = router;

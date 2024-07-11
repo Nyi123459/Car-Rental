@@ -1,13 +1,12 @@
-const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+
 const Customer = require("../models/user");
 const Vehicle = require("../models/vehicle");
-const { error } = require("../util/error");
+const Booking = require("../models/booking");
 const fileHelper = require("../util/file");
 
 // User //
 exports.homepage = async (req, res) => {
-  const messages = await req.consumeFlash("info");
   const perPage = 12;
   const page = parseInt(req.query.page) || 1;
 
@@ -22,11 +21,10 @@ exports.homepage = async (req, res) => {
     const totalPages = Math.ceil(count / perPage);
 
     res.render("admin/index", {
-      pageTitle: "NodeJs",
+      pageTitle: "Dashboard",
       customers,
       current: page,
       pages: totalPages,
-      messages,
     });
   } catch (error) {
     console.log(error);
@@ -34,25 +32,29 @@ exports.homepage = async (req, res) => {
 };
 
 exports.addCustomer = async (req, res) => {
-  res.render("admin/customer/add", { pageTitle: "Add New Customer - NodeJs" });
+  res.render("admin/customer/add", { pageTitle: "Add New Custome" });
 };
 
 exports.postCustomer = async (req, res) => {
-  const password = req.body.password;
+  const { firstName, lastName,  tel, email, password } = req.body;
   try {
+    const existingUser = await Customer.findOne({ email });
+    if (existingUser) {
+      if (existingUser.email === email) {
+        return console.log("Email already exist", email);
+      }
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newCustomer = new Customer({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      details: req.body.details,
-      tel: req.body.tel,
-      email: req.body.email,
+      firstName: firstName,
+      lastName: lastName,
+      tel: tel,
+      email: email,
       password: hashedPassword,
     });
 
     await Customer.create(newCustomer);
-    await req.flash("info", "New customer has been added");
     res.redirect("/admin");
   } catch (error) {
     console.log(error);
@@ -130,7 +132,6 @@ exports.searchCustomer = async (req, res) => {
 //  Vehicle  //
 
 exports.viewVehicles = async (req, res) => {
-  const messages = await req.consumeFlash("info");
   const perPage = 6;
   const page = parseInt(req.query.page) || 1;
   try {
@@ -148,7 +149,6 @@ exports.viewVehicles = async (req, res) => {
       vehicles,
       current: page,
       pages: totalPages,
-      messages,
     });
   } catch (error) {
     console.log(error);
@@ -174,8 +174,16 @@ exports.getAddVehicle = (req, res, next) => {
 };
 
 exports.postAddVehicle = (req, res, next) => {
-  const { category, type, title, transmission, about, passengers, luggage } =
-    req.body;
+  const {
+    category,
+    type,
+    title,
+    transmission,
+    about,
+    price,
+    passengers,
+    luggage,
+  } = req.body;
   const image = req.file;
   if (!image) {
     return res.redirect("/admin/addVehicle");
@@ -187,6 +195,7 @@ exports.postAddVehicle = (req, res, next) => {
     title: title,
     transmission: transmission,
     about: about,
+    price: price,
     imageUrl: imageUrl,
     passengers: passengers,
     luggage: luggage,
@@ -215,9 +224,17 @@ exports.getEditVehicle = async (req, res) => {
 
 exports.postEditVehicle = async (req, res) => {
   const id = req.params.id;
-  const { category, type, title, transmission, about, passengers, luggage } =
-    req.body;
-  const price = req.body.price;
+  const {
+    category,
+    type,
+    title,
+    transmission,
+    about,
+    price,
+    passengers,
+    luggage,
+  } = req.body;
+
   const image = req.file;
   try {
     const vehicle = await Vehicle.findById(id);
@@ -229,6 +246,7 @@ exports.postEditVehicle = async (req, res) => {
     vehicle.title = title;
     vehicle.transmission = transmission;
     vehicle.about = about;
+    vehicle.price = price;
     vehicle.passengers = passengers;
     vehicle.luggage = luggage;
     if (image) {
@@ -256,7 +274,9 @@ exports.deleteVehicle = async (req, res) => {
       fileHelper.deleteFile(vehicle.imageUrl);
     }
     res.redirect("/admin/viewVehicles");
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.searchVehicle = async (req, res) => {
@@ -277,3 +297,48 @@ exports.searchVehicle = async (req, res) => {
     console.log(error);
   }
 }; // Vehicle //
+
+exports.viewBookings = async (req, res, next) => {
+  const perPage = 6;
+  const page = parseInt(req.query.page) || 1;
+  try {
+    const bookings = await Booking.aggregate([
+      { $sort: { updatedAt: -1 } },
+      { $skip: perPage * page - perPage },
+      { $limit: perPage },
+    ]);
+
+    const count = await Booking.countDocuments();
+    const totalPages = Math.ceil(count / perPage);
+
+    res.render("admin/bookings/index", {
+      pageTitle: "View Bookings Data",
+      bookings,
+      current: page,
+      pages: totalPages,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.viewBooking = async (req, res) => {
+  try {
+    const booking = await Booking.findOne({ _id: req.params.id });
+    res.render("admin/bookings/viewBooking", {
+      pageTitle: "View Booking Data",
+      booking,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.deleteBooking = async (req, res) => {
+  try {
+    await Booking.deleteOne({ _id: req.params.id });
+    res.redirect("/admin/viewBookings");
+  } catch (error) {
+    console.log(error);
+  }
+};

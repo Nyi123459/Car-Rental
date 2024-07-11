@@ -1,36 +1,21 @@
 const path = require("path");
-
 const express = require("express");
-
 const mongoose = require("mongoose");
-
 const bodyParser = require("body-parser");
-
 const methodOverride = require("method-override");
-
-const { flash } = require("express-flash-message");
-
+const flash = require("connect-flash");
 const multer = require("multer");
-
 const cookieParser = require("cookie-parser");
-
 const session = require("express-session");
-
 const MongoDBStore = require("connect-mongodb-session")(session);
-
 const dotenv = require("dotenv");
 
 const adminRoute = require("./routes/admin");
-
 const authRoute = require("./routes/auth");
-
-const userRoute = require("./routes/user");
-
 const vehicleRoute = require("./routes/vehicle");
-
 const User = require("./models/user");
-const { error } = require("./util/error");
-
+const errorController = require("./controllers/error");
+const vehicleController = require("./controllers/vehicle");
 const app = express();
 dotenv.config();
 
@@ -66,7 +51,18 @@ const fileFilter = (req, file, cb) => {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use("/webhook", express.raw({ type: "application/json" }));
+app.use("/webhook", express.text());
+app.use("/webhook", (req, res, next) => {
+  if (req.is("json")) {
+    req.body = JSON.parse(req.body);
+  }
+  next();
+});
+
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
 );
@@ -89,12 +85,7 @@ app.use(
   })
 );
 
-app.use(flash({ sessionKeyName: "flashMessage" }));
-
-app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.session.isLoggedIn;
-  next();
-});
+app.use(flash());
 
 app.use((req, res, next) => {
   if (!req.session.user) {
@@ -113,22 +104,26 @@ app.use((req, res, next) => {
     });
 });
 
-// app.use(expressLayouts);
-// app.set("layout", "./admin/layouts/admin-main");
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  next();
+});
 
 app.use(authRoute);
-app.use(userRoute);
 app.use(adminRoute);
 app.use(vehicleRoute);
 
+app.post("/webhook/payment", vehicleController.payment);
+
+
+app.get("/500", errorController.get500);
+
+app.use(errorController.get404);
+
 app.use((err, req, res, next) => {
-  const errorStatus = err.status || 500;
-  const errorMessage = err.message || "Something went wrong";
-  return res.status(errorStatus).json({
-    success: false,
-    status: errorStatus,
-    message: errorMessage,
-    stack: err.stack,
+  const message = err.message || "Internal Server Error";
+  res.status(err.status || 500).render("500", {
+    message: message,
   });
 });
 

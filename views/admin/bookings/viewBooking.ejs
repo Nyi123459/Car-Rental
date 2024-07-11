@@ -18,8 +18,8 @@
     <div class="container-fluid">
       <header
         class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="/admin"
-          >Admin</a
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="/"
+          >Home</a
         >
 
         <button
@@ -37,7 +37,7 @@
           class="nav col-12 col-md-auto flex-fill mb-2 justify-content-center mb-md-0"
           role="search"
           method="POST"
-          action="/admin/searchVehicle">
+          action="/admin/searchBooking">
           <input
             type="search"
             name="searchTerm"
@@ -53,7 +53,7 @@
 
         <div
           class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2"><%= vehicle.category %> - <%= vehicle.title %></h1>
+          <h1 class="h2">Booking Details</h1>
           <div class="btn-toolbar mb-2 mb-md 0">
             <div class="btn-group me-2">
               <button type="button" class="btn btn-sm btn-outline-secondary">
@@ -74,116 +74,103 @@
                   <li class="breadcrumb-item">
                     <a href="/admin">Dashboard</a>
                   </li>
-                  <li class="breadcrumb-item active"><%= vehicle.type %></li>
+                  <li class="breadcrumb-item active"><%= booking.user.email %></li>
                 </ol>
               </nav>
             </div>
             <div class="col text-end fw-lighter">
-              <b
-                >Last Updated <%= new Date(vehicle.updatedAt).toUTCString() %>
-              </b>
-              <b>UserId:</b> <%= vehicle._id %>
+              <b>User Id:</b> <%= booking.user.userId %>
             </div>
           </div>
         </div>
 
-        <ul class="list-group">
+        <ul class="list-group" style="margin-bottom: 15px;">
           <li class="list-group-item">
             <div class="row">
-              <div class="col" style="max-width: 140px">
-                <b>Category:</b>
+              <div class="col" style="max-width: 200px; margin-bottom: 15px;">
+                <b>Vehicle:</b>
               </div>
-              <div class="col"><%= vehicle.category %></div>
+              <div class="col" style="margin-bottom: 15px;"><%= booking.vehicle.title %></div>
             </div>
           </li>
 
-          <li class="list-group-item">
+          <li class="list-group-item" style="margin-bottom: 15px;">
             <div class="row">
-              <div class="col" style="max-width: 140px">
-                <b>Type:</b>
+              <div class="col" style="max-width: 200px; margin-bottom: 15px;">
+                <b>Payment Intent Id:</b>
               </div>
-              <div class="col"><%= vehicle.type %></div>
+              <div class="col" style="margin-bottom: 15px;"><%= booking.paymentIntentId %></div>
             </div>
           </li>
 
-          <li class="list-group-item">
+          <li class="list-group-item" style="margin-bottom: 15px;">
             <div class="row">
-              <div class="col" style="max-width: 140px">
-                <b>Title:</b>
+              <div class="col" style="max-width: 200px; margin-bottom: 15px;">
+                <b>Payment_Done:</b>
               </div>
-              <div class="col"><%= vehicle.title %></div>
+              <div class="col" style="margin-bottom: 15px;"><%= booking.payment_done %></div>
             </div>
           </li>
 
-          <li class="list-group-item">
+          <li class="list-group-item" style="margin-bottom: 15px;">
             <div class="row">
-              <div class="col" style="max-width: 140px">
-                <b>Transmission:</b>
+              <div class="col" style="max-width: 200px; margin-bottom: 15px;">
+                <b>Location:</b>
               </div>
-              <div class="col"><%= vehicle.transmission %></div>
+              <div class="col" style="margin-bottom: 15px;"> 
+                <% if (booking.differentLocation) { %>
+                  <%= booking.location %>
+                <b style="padding-left: 150px;">Return Different Location:</b>
+                  <%= booking.differentLocation %>
+                <% } else { %>
+                  <%= booking.location %>
+                <% } %>
+              </div>
             </div>
           </li>
 
-          <li class="list-group-item">
+            <li class="list-group-item" style="margin-bottom: 15px;">
             <div class="row">
-              <div class="col" style="max-width: 140px">
-                <b>Price($/hour):</b>
+              <div class="col" style="max-width: 200px; margin-bottom: 15px;">
+                <b>Start Date:</b>
               </div>
-              <div class="col"><%= vehicle.price %></div>
+              <div class="col" style="margin-bottom: 15px;"><%= booking.startDate %></div>
             </div>
           </li>
 
-          <li class="list-group-item">
+            <li class="list-group-item" style="margin-bottom: 15px;">
             <div class="row">
-              <div class="col" style="max-width: 140px">
-                <b>Passengers:</b>
+              <div class="col" style="max-width: 200px; margin-bottom: 15px;">
+                <b>End Date:</b>
               </div>
-              <div class="col"><%= vehicle.passengers %></div>
+              <div class="col" style="margin-bottom: 15px;"><%= booking.endDate %></div>
             </div>
           </li>
 
-          <li class="list-group-item">
+          <li class="list-group-item" style="margin-bottom: 15px;">
             <div class="row">
-              <div class="col" style="max-width: 140px">
-                <b>Luggage:</b>
+              <div class="col" style="max-width: 200px; margin-bottom: 15px;">
+                <b>Start Hourly Time:</b>
               </div>
-              <div class="col"><%= vehicle.luggage %></div>
+              <div class="col" style="margin-bottom: 15px;"><%= booking.startHourlyTime %></div>
             </div>
           </li>
 
-          <li class="list-group-item">
+          <li class="list-group-item" style="margin-bottom: 15px;">
             <div class="row">
-              <div class="col" style="max-width: 140px">
-                <b>Image:</b>
+              <div class="col" style="max-width: 200px; margin-bottom: 15px;">
+                <b>End Hourly Time:</b>
               </div>
-              <div class="col"><%= vehicle.imageUrl %></div>
+              <div class="col" style="margin-bottom: 15px;"><%= booking.endHourlyTime %></div>
             </div>
           </li>
 
-          <li class="list-group-item">
-            <div class="row-12">
-              <div class="col-30" style="max-width: 140px">
-                <b>About:</b>
-              </div>
-              <div class="col-30" ><%= vehicle.about %></div>
-            </div>
-          </li>
-
-          <li class="list-group-item">
+          <li class="list-group-item" style="margin-bottom: 15px;">
             <div class="row">
-              <div class="col" style="max-width: 140px">
-                <b>Date Created:</b>
+              <div class="col" style="max-width: 200px; margin-bottom: 15px;">
+                <b>Cost:</b>
               </div>
-              <div class="col"><%= vehicle.createdAt %></div>
-            </div>
-          </li>
-
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col" style="max-width: 140px">
-                <b>Date Modified:</b>
-              </div>
-              <div class="col"><%= vehicle.updatedAt %></div>
+              <div class="col" style="margin-bottom: 15px;"><%= booking.totalAmount %></div>
             </div>
           </li>
         </ul>

@@ -24,11 +24,8 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  details: {
-    type: String,
-    required: true,
-  },
-  
+  resetToken: String,
+  resetTokenExpiration: Date,
   isAdmin: {
     type: Boolean,
     default: false,
